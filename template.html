@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        font-family: "Helvetica Neue", Helvetica, Arial;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 400;
+        color: #333;
+        -webkit-font-smoothing: antialiased;
+        font-smoothing: antialiased;
+        background: #ffffff;
+        font-family: 'Exo', sans-serif;
+        font-weight: 500;
+      }
+      ol {
+  list-style: none;
+  counter-reset: steps;
+}
+ol li {
+  counter-increment: steps;
+  margin: 10px 0;
+  font-size: 16px;
+}
+ol li::before {
+  content: counter(steps);
+  margin-right: 0.5rem;
+  background: #ff6f00;
+  color: white;
+  width: 1.2em;
+  height: 1.2em;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  line-height: 1.2em;
+}
+ol ol li::before {
+  background: darkorchid;
+}
+      .title
+      {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 24px;
+      }
+      .title2
+      {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 18px;
+      }
+
+      .card {
+        /* Add shadows to create the "card" effect */
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 468px;
+        background-color: #57287C;
+      }
+      
+      .containerCard
+      {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+      /* On mouse-over, add a deeper shadow */
+      .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+      }
+      
+      /* Add some padding inside the card container */
+      .container h4 {
+        padding: 2px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        color: #ffffff;
+        font-family: 'Exo', sans-serif;
+        
+      }
+      .container p {
+        padding: 2px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        
+      }
+
+
+      @media screen and (max-width: 580px) {
+        body {
+          font-size: 16px;
+          line-height: 22px;
+        }
+      }
+      
+      .wrapper {
+        margin: 0 auto;
+        padding: 40px;
+        max-width: 800px;
+      }
+      
+      .table {
+        margin: 0 0 40px 0;
+        width: 100%;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        display: table;
+      }
+      @media screen and (max-width: 580px) {
+        .table {
+          display: block;
+        }
+      }
+      
+      .row {
+        display: table-row;
+        background: #f6f6f6;
+      }
+      .row:nth-of-type(odd) {
+        background: #e9e9e9;
+      }
+      .row.header {
+        font-weight: 900;
+        color: #ffffff;
+        background: #ea6153;
+      }
+      .row.green {
+        background: #7C5728;
+      }
+      .row.blue {
+        background: #287C57;
+      }
+      @media screen and (max-width: 580px) {
+        .row {
+          padding: 14px 0 7px;
+          display: block;
+        }
+        .row.header {
+          padding: 0;
+          height: 6px;
+        }
+        .row.header .cell {
+          display: none;
+        }
+        .row .cell {
+          margin-bottom: 10px;
+        }
+        .row .cell:before {
+          margin-bottom: 3px;
+          content: attr(data-title);
+          min-width: 98px;
+          font-size: 10px;
+          line-height: 10px;
+          font-weight: bold;
+          text-transform: uppercase;
+          color: #969696;
+          display: block;
+        }
+      }
+      
+      .cell {
+        padding: 6px 12px;
+        display: table-cell;
+      }
+      @media screen and (max-width: 580px) {
+        .cell {
+          padding: 2px 16px;
+          display: block;
+        }
+      }
+</style>
+<body>
+    <div>
+        <h1 class="title">Subject Name </h1>
+        <h3 class="title2"> Topics </h3>
+    </div>
+    <br/>
+    <div class="containerCard">
+        <div class="card">
+            <div class="container">
+              <h4><b>{{personalDetails.name}}</b></h4>
+              <p>{{personalDetails.email}}</p>
+            </div>
+          </div>
+    </div>
+    <h3>Points to Note</h3>
+        <ul class="s1">
+         <li> The mark summary is just for your information only, the final grades and marks for this course will be ones which appear on your transcript. </li>
+         <li> Instruction 2 </li>
+         <li> Instruction 3 </li>
+         <!-- <li> For Quiz, best 3 out of 4, is taken and rounded up to 20 Marks </li> -->
+        </ul>
+
+        <div class="table blue">
+          <div class="row header green">
+            {% for header in heading %}
+            <div class="cell">
+              {{ header }}
+            </div>
+            {% endfor %}
+          </div>
+          
+          {% for i in range(len(RowItems)): %}
+          <div class="row">
+
+            
+            {% for j in range(len(heading)) %}
+            <div class="cell" data-title="Name">
+                {{mainMarkList[j][i]}}  
+            </div>
+            {% endfor %}         
+          </div>
+          {% endfor %}
+         
+        </div>
+        {% if printSection2 %}
+        <h2 class="title2"> Total Summary </h2> 
+
+        <div class="table blue">
+          <div class="row header blue">
+            {% for header in FinalHeading %}
+            <div class="cell">
+              {{ header }}
+            </div>
+            {% endfor %}
+          </div>
+          
+          {% for i in range(len(FinalRowItems)): %}
+          <div class="row">
+
+            
+            {% for j in range(len(FinalHeading)) %}
+            <div class="cell" data-title="Name">
+                {{mainMarkFinalList[j][i]}}  
+            </div>
+            {% endfor %}
+   
+            
+          </div>
+          {% endfor %}
+
+        </div>
+
+        {% endif %}
+        
+      </div>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo:wght@300&display=swap" rel="stylesheet">
+</body>
+</html>
