@@ -7,6 +7,7 @@ import pandas as pd
 import numpy as np 
 import matplotlib.pyplot as plt
 import weasyprint
+from tqdm import tqdm
 
 import yaml  #pyyaml required
 # %%
@@ -30,7 +31,7 @@ SendAllEMAILS = False #### DANGEROUS VARIABLE, DO NOT EDIT
 
 # %%
 
-for i in range(dataMaster.shape[0]):  #
+for i in tqdm(range(dataMaster.shape[0])):  #
     studentId = i;
     emailId = EmailId[studentId]
     personalDetails = {};
@@ -84,7 +85,7 @@ for i in range(dataMaster.shape[0]):  #
         ## Final table 
         columns = [key for key,value in inputParameters['section-2-marks'].items()  ]
         MainMarksFinal = list(dataMaster[columns].loc[studentId])
-        MainMarksFinal = ['%.2f' % float(elem) if "ubm" not in str(elem) else elem for elem in NormalisedMarks ]
+        MainMarksFinal = ['%.2f' % float(elem) if "ubm" not in str(elem) else elem for elem in MainMarksFinal ]
         MaxMarksFinal   =  [value for key,value in inputParameters['section-2-marks'].items()  ]
         FinalHeading  = inputParameters['section-2-Heading']
         FinalRowItems =  [key for key,value in inputParameters['section-2-marks'].items()  ]
@@ -113,13 +114,15 @@ for i in range(dataMaster.shape[0]):  #
             FinalHeading= FinalHeading,
             mainMarkFinalList = mainMarkFinalList,
             FinalRowItems = FinalRowItems,
-
+            SubjectName = inputParameters['SubjectName'],
+            instructionArray = inputParameters['instructionArray'],
         ))
 
     
     pdf = weasyprint.HTML(filename).write_pdf()
     open(pdffilename, 'wb').write(pdf)
-    print("Generated Reports for ", EmailId[studentId])
+    # print("Generated Reports for ", EmailId[studentId])
+
 
     if(not inputParameters['sendEmail']):
         continue;
@@ -131,7 +134,7 @@ for i in range(dataMaster.shape[0]):  #
             print("Made True")
             SendAllEMAILS = True
         
-    if(c == "Stop"):
+    if(c == "Stop" or c == "stop"):
         exit(0)
 
     if((c == 'Send Email' or SendAllEMAILS) and inputParameters['sendEmail']):
@@ -146,7 +149,7 @@ for i in range(dataMaster.shape[0]):  #
         smtp = smtplib.SMTP('smtp.office365.com', 587)
         smtp.ehlo()
         smtp.starttls()
-        smtp.login('noreplystars.cds@auto.iisc.ac.in', 'xxx--- ASK THIVIN --- xxx')
+        smtp.login('noreplystars.cds@auto.iisc.ac.in', 'xxx --- ASK THIVIN --- xxx')
 
 
         msg = MIMEMultipart()
@@ -178,3 +181,4 @@ for i in range(dataMaster.shape[0]):  #
         import time
         if(SendAllEMAILS):
             time.sleep(5)
+# %%

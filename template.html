@@ -185,8 +185,8 @@ ol ol li::before {
 </style>
 <body>
     <div>
-        <h1 class="title">Subject Name </h1>
-        <h3 class="title2"> Topics </h3>
+        <h1 class="title">{{SubjectName}}</h1>
+        <!-- <h3 class="title2"> Topics </h3> -->
     </div>
     <br/>
     <div class="containerCard">
@@ -199,9 +199,12 @@ ol ol li::before {
     </div>
     <h3>Points to Note</h3>
         <ul class="s1">
-         <li> The mark summary is just for your information only, the final grades and marks for this course will be ones which appear on your transcript. </li>
-         <li> Instruction 2 </li>
-         <li> Instruction 3 </li>
+
+         {% for ins in instructionArray %}
+         <li>
+                {{ins}}
+              </li>
+            {% endfor %}   
          <!-- <li> For Quiz, best 3 out of 4, is taken and rounded up to 20 Marks </li> -->
         </ul>
 
@@ -258,6 +261,11 @@ ol ol li::before {
         {% endif %}
         
       </div>
+
+      <!-- Add a footer  -->
+      <footer>
+        <p style="font-size: 8px;">Automated email sent using python script from <a href="https://github.com/thivinanandh/grading-emailer" style="font-size: 8px;">Github-link</a></p>
+      </footer>
       <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Exo:wght@300&display=swap" rel="stylesheet">
