@@ -8,6 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import weasyprint
 from tqdm import tqdm
+import time
 
 import yaml  #pyyaml required
 # %%
@@ -27,6 +28,12 @@ dataMaster
 EmailId = dataMaster[inputParameters["HeaderEmail"]].to_list();
 Name = dataMaster[inputParameters["HeaderName"]].to_list();
 SendAllEMAILS = False #### DANGEROUS VARIABLE, DO NOT EDIT
+
+
+## print the SMTP email id and password from the yaml file
+print("SMTP Email ID: ",inputParameters['SMTPEmailID'])
+print("SMTP Email Password: ",inputParameters['SMTPEmailPassword'])
+
 
 
 # %%
@@ -149,7 +156,7 @@ for i in tqdm(range(dataMaster.shape[0])):  #
         smtp = smtplib.SMTP('smtp.office365.com', 587)
         smtp.ehlo()
         smtp.starttls()
-        smtp.login('noreplystars.cds@auto.iisc.ac.in', 'xxx --- ASK THIVIN --- xxx')
+        smtp.login(inputParameters['SMTPEmailID'], inputParameters['SMTPEmailPassword'])
 
 
         msg = MIMEMultipart()
@@ -174,11 +181,11 @@ for i in tqdm(range(dataMaster.shape[0])):  #
             filename="{os.path.basename(one_attachment)}"'
             msg.attach(file)
 
-        smtp.sendmail(from_addr="noreplystars.cds@auto.iisc.ac.in",
+        smtp.sendmail(from_addr=inputParameters['SMTPEmailID'],
                     to_addrs=toAddress, msg=msg.as_string())
         smtp.quit()
 
-        import time
+        
         if(SendAllEMAILS):
-            time.sleep(5)
+            time.sleep(inputParameters['sleepTime'])
 # %%
